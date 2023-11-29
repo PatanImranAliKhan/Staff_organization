@@ -1,0 +1,28 @@
+.addform {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.displayData {
+    margin-top: 25px;
+}
+
+.displayData {
+    border: 2px solid #000;
+}
+
+@media screen and (max-width: 768px) {
+    .addform {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .addform {
+        width: 80%;
+    }
+}

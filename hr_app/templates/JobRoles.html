@@ -1,0 +1,148 @@
+{% extends "hr_base.html" %}
+{% load static %}
+{% block title %}
+Job Roles
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/jobroles.css'%}" />
+
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="addform">
+        <h1 style="text-align: center;">Add Job Role</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="jobRole" placeholder="Job Role" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <select name="JobLevel" class="form-control" required>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="salary" placeholder="Salary" class="form-control" required />
+            </div>
+            <button class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    <br>
+    <div class="displayData table-responsive">
+        {% if job_roles %}
+        <table class="table table-striped bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Job Role</th>
+                    <th scope="col">Job Level</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Edit </th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job_role in job_roles %}
+                <tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{job_role.jobRole}}</td>
+                        <td>{{job_role.JobLevel}}</td>
+                        <td>{{job_role.salary}}</td>
+                        <td style="color: orange;cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editModal"
+                            onclick="editDetails('{{job_role.jobId}}', '{{job_role.jobRole}}', '{{job_role.JobLevel}}', '{{job_role.salary}}')">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            <button type="submit" style="color: red;cursor: pointer;border:none;" name="deleteId"
+                                value="{{job_role.jobId}}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="container jumbotron" style="width: 100%; padding: 25px; margin-top: 50px">
+            <p class="lead">No <b>Job Roles</b> has been Added</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalLabel">Edit Job Role</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body" action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="jobRole" id="jobRole" placeholder="Job Role" class="form-control"
+                        required />
+                </div>
+                <div class="form-group">
+                    <select name="JobLevel" id="JobLevel" class="form-control" required>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="salary" id="salary" placeholder="Salary" class="form-control" required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="editId" class="btn btn-primary" name="editDetails" value="">Save
+                        changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const savebutton = document.getElementById("editId");
+    const jobRole = document.getElementById("jobRole");
+    const JobLevel = document.getElementById("JobLevel");
+    const salary = document.getElementById("salary");
+
+    function editDetails(jobid, jr, jl, sa) {
+        console.log(jobid, jr, jl, sa)
+        savebutton.setAttribute('value', jobid);
+        jobRole.value = jr;
+        JobLevel.value = jl;
+        salary.value = sa;
+    }
+</script>
+
+{% endblock %}

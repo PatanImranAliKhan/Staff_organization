@@ -1,0 +1,140 @@
+{% extends "hr_base.html" %}
+{% load static %}
+{% block title %}
+Teams
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/jobroles.css'%}" />
+
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="addform">
+        <h1 style="text-align: center;">Add Teams</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="teamName" placeholder="Team Name" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <select name="manager" class="form-control">
+                    <option value="" selected>Select Manager</option>
+                    {% for man in managers %}
+                    <option value="{{man}}">{{man}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <select name="department" class="form-control">
+                    <option value="" selected>Select Department</option>
+                    {% for dept in departments %}
+                    <option value="{{dept}}">{{dept}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    <br>
+    <div class="displayData table-responsive">
+        {% if teams %}
+        <table class="table table-striped bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Team Name</th>
+                    <th scope="col">Manager</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Edit </th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{team.teamName}}</td>
+                        <td>{{team.manager}}</td>
+                        <td>{{team.department}}</td>
+                        <td style="color: orange;cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editModal"
+                            onclick="editDetails('{{team.teamId}}', '{{team.teamName}}', '{{team.manager}}', '{{team.department}}')">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            <button type="submit" style="color: red;cursor: pointer;border:none;" name="deleteId"
+                                value="{{team.teamId}}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="container jumbotron" style="width: 100%; padding: 25px; margin-top: 50px">
+            <p class="lead">No <b>Teams</b> has been Added</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalLabel">Edit Team</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body" action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="teamName" id="teamName" placeholder="Team Name" class="form-control"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label><b> Manager:</b>  </label>
+                    <select name="manager" id="manager" class="form-control" required>
+                        {% for man in managers %}
+                        <option value="{{man}}">{{man}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><b> Department: </b></label>
+                    <select name="department" id="department" class="form-control" required>
+                        {% for dept in departments %}
+                        <option value="{{dept}}">{{dept}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="editId" class="btn btn-primary" name="editDetails" value="">Save
+                        changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const savebutton = document.getElementById("editId");
+    const teamName = document.getElementById("teamName");
+    const manager = document.getElementById("manager");
+    const department = document.getElementById("department");
+
+    function editDetails(teamId, tn, man, dept) {
+        console.log(teamId, tn, man, dept)
+        savebutton.setAttribute('value', teamId);
+        teamName.value = tn;
+        manager.value=man;
+        department.value=dept;
+    }
+</script>
+
+{% endblock %}

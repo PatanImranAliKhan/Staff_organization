@@ -1,0 +1,61 @@
+{% extends "hr_base.html" %} {% load static %} {% block title %} Employees List
+{% endblock %} {% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/employees_list.css'%}" />
+
+{% endblock %} {% block content %}
+
+<div class="container">
+    <div class="addemp">
+        <a  href="{% url 'add_employee' %}">
+            <button>
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Employee
+            </button>
+        </a>
+    </div>
+    <div class="displaydata table-responsive">
+        {% if employees %}
+        <table class="table table-striped border shadow-lg">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emp in employees%}
+                <tr>
+                    <form action="" method="post">
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{emp.username}}</td>
+                        <td>{{emp.email}}</td>
+                        <td>{{emp.mobile}}</td>
+                        <td>
+                            <a href="{% url 'edit_employee' 'true' emp.email %}" style="color: orange;cursor: pointer;">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button type="submit" style="color: red;cursor: pointer;border:none;" name="deleteId"
+                                value="{{emp.email}}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        {% else %}
+        <div class="container jumbotron" style="width: 100%; padding: 25px; margin-top: 50px">
+            <p class="lead">No <b>Employees</b> has been Added</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

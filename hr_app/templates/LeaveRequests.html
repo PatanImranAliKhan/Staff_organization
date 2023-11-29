@@ -1,0 +1,57 @@
+{% extends "hr_base.html" %}
+{% load static %}
+{% block title %}
+Leaves request
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="displayData table-responsive" style="margin-top: 25px;">
+        {% if leaves %}
+        <table class="table table-striped bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Leave reason</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">No. Of Hours </th>
+                    <th scope="col">Change Status</th>
+                    <th scope="col">Apply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{leave.LeaveType}}</td>
+                        <td>{{leave.StartDate}}</td>
+                        <td>{{leave.EndDate}}</td>
+                        <td>{{leave.NoOfHours}}</td>
+                        <td>
+                            <select name="status" class="form-control">
+                                <option value="" hidden>Change Status</option>
+                                <option value="Approved">Approve</option>
+                                <option value="Rejected">Reject</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" name="changeId"
+                                value="{{leave.leaveId}}">Apply</button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="container jumbotron" style="width: 100%; padding: 25px; margin-top: 50px">
+            <p class="lead">No <b>Pending Leaves</b></p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

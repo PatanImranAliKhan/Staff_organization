@@ -1,0 +1,55 @@
+{% extends "auth_base.html" %}
+{% load static %}
+{% block title %}
+	HR Registration
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/signupstyle.css'%}">
+{% endblock %}
+{% block content %} 
+	<section class="body">
+		<div class="container">
+			{% if error %}
+			<div class="alert alert-danger" role="alert">
+				{{error}}
+			</div>
+			{% endif %}
+			<div class="container">
+				<form class="signupform" action="" method="post">
+                    {% csrf_token %}
+					<div class="userlogo">
+						<i class="fa fa-user-circle" style="font-size: 60px;" aria-hidden="true"></i>
+					</div>
+					<h3 class="heading">HR Register</h3>
+					<div class="main">
+						<div class="form-group">
+							<input type="text" class="form-control" name="username" placeholder="Username"  required />
+						</div>
+						<div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="email" required />
+                        </div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="mobile" placeholder="Mobile Number" required />
+						</div>
+                        <div>
+                            <div class="address" name="address">
+                                <input type="text" class="form-control" name="city" placeholder="City"  required />
+                                <input type="text" class="form-control" name="state" placeholder="State"  required />
+                                <input type="text" class="form-control" name="regName" placeholder="Region"  required />
+                                <input type="text" class="form-control" name="conName" placeholder="Country"  required />
+                                <input type="text" class="form-control" name="zipcode" placeholder="Zipcode"  required />
+                            </div>
+                        </div>
+						<!-- <div class="form-group">
+							<textarea placeholder='Address ...' class="form-control" rows="3"  required></textarea>
+						</div> -->
+						<div class="form-group">
+							<input type="password" placeholder="password" name="password" class="form-control"  required />
+						</div>
+                        <p>Already have an account&nbsp;&nbsp;<a href="{% url 'login' %}">login</a></p>
+						<button class="btn btn-primary" type="submit" >Register</button>
+					</div>
+				</form>
+		</div>
+	</section>
+{% endblock %}

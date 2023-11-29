@@ -1,0 +1,137 @@
+{% extends "hr_base.html" %}
+{% load static %} 
+{% block title %} 
+Add Employee 
+{% endblock %} 
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/add_employee.css'%}" />
+
+{% endblock %} {% block content %}
+
+<div class="container">
+    <div class="addRoles">
+        <a href="{% url 'job_roles' %}">
+            <button  class="btn btn-secondary">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add JobRole
+            </button>
+        </a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deptModal">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add Department
+        </button>
+    </div>
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            {{success}}
+        </div>
+    {% endif %}
+    <form class="addempform" action="" method="post">
+        {% csrf_token %}
+        <h1 style="margin: 5px; text-align: center;">Add Employee</h1>
+        <b>Employee Information</b>
+        <br>
+        <div class="basicinfo">
+            <div class="form-group">
+                <input type="text" name="firstname" placeholder="Firstname" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="lastname" placeholder="Lastname" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="mobile" placeholder="Mobile" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>DOB:</label>
+                <input type="date" name="dob" placeholder="Date of Birth" class="form-control" required />
+            </div>
+        </div>
+        <div class="mangsection">
+            <div class="form-group ismanager">
+                <input type="checkbox" name="is_manager" /> <p>is_manager</p>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="manager">
+                    <option value="">Select Manager</option>
+                    {% for manager in managers %}
+                    <option value="{{manager}}">{{manager}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <hr />
+        <b>Address</b>
+        <br>
+        <div class="address">
+            <div class="form-group">
+                <input type="text" name="city" placeholder="City" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="regName" placeholder="Region" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="state" placeholder="Sate" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="conName" placeholder="Country" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="zipcode" placeholder="Zipcode" class="form-control" required />
+            </div>
+        </div>
+        <hr />
+        <div class="allroles">
+            <div>
+                <b>Job Role</b>
+                <br>
+                <select class="form-control" style="width: 95%" name="jobRole">
+                    <option value="">Select JobRole</option>
+                    {% for jobrole in jobroles %}
+                    <option value="{{jobrole}}">{{jobrole}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <b>Department</b>
+                <br>
+                <select class="form-control" style="width: 95%" name="department">
+                    <option value="">Select Department</option>
+                    {% for dept in departments %}
+                    <option value="{{dept}}">{{dept}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary savebutton" type="submit" >Save</button>
+    </form>
+</div>
+
+
+<div class="modal fade" id="deptModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Deprtment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'add_departments' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="deptId" placeholder="Department ID" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="deptName" placeholder="Department Name" class="form-control" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

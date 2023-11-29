@@ -1,0 +1,20 @@
+.addemp {
+    height: 75px;
+    margin-top: 15px;
+}
+
+.addemp a {
+    float: right;
+}
+
+.addemp button {
+    background-color: rgb(61, 61, 183);
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.displaydata {
+    border: 2px solid #000;
+}

@@ -1,0 +1,106 @@
+{% extends "hr_base.html" %}
+{% load static %}
+{% block title %}
+Departments
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/jobroles.css'%}" />
+
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="addform">
+        <h1 style="text-align: center;">Add Department</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="deptId" placeholder="Department Id" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="deptName" placeholder="Department Name" class="form-control" required />
+            </div>
+            <button class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    <br>
+    <div class="displayData table-responsive">
+        {% if departments %}
+        <table class="table table-striped bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Department Id</th>
+                    <th scope="col">Department Name</th>
+                    <th scope="col">Edit </th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for department in departments %}
+                <tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{department.deptId}}</td>
+                        <td>{{department.deptName}}</td>
+                        <td style="color: orange;cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editModal"
+                            onclick="editDetails('{{department.deptId}}', '{{department.deptName}}')">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            <button type="submit" style="color: red;cursor: pointer;border:none;" name="deleteId"
+                                value="{{department.deptId}}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="container jumbotron" style="width: 100%; padding: 25px; margin-top: 50px">
+            <p class="lead">No <b>Departments</b> has been Added</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalLabel">Edit Department</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body" action="" method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text" name="deptName" id="deptName" placeholder="Departname Id" class="form-control"
+                        required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="editId" class="btn btn-primary" name="editDetails" value="">Save
+                        changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const savebutton = document.getElementById("editId");
+    const deptName = document.getElementById("deptName");
+
+    function editDetails(deptId, dn) {
+        savebutton.setAttribute('value', deptId);
+        deptName.value = dn;
+    }
+</script>
+
+{% endblock %}

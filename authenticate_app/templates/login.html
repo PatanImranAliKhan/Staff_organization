@@ -1,0 +1,47 @@
+{% extends "auth_base.html" %}
+{% load static %}
+{% block title %}
+	Login
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/loginstyle.css'%}">
+{% endblock %}
+{% block content %}
+	<section class="body">
+		<div class="container">
+			{% if error %}
+			<div class="alert alert-danger" role="alert">
+				{{error}}
+			</div>
+			{% endif %}
+			<div class="container">
+                <form class="loginform" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="userlogo">
+                        <i class="fa fa-user-circle" style="font-size: 60px;" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="heading">Login</h3>
+                    <div class="main">
+                        <div class="form-group">
+                            <input type="text" name="email" placeholder="Email" class="form-control" required />
+                        </div>
+                        <div class='form-group'>
+                            <select name='category' class='form-control' >
+                                <option value="employee" selected>Employee</option>
+                                <option value="hr">HR</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="password" class="form-control" required />
+                        </div>
+                        <button class="btn btn-primary" type="submit" >Login</button>
+                        <br>
+                        <p style="display: flex;">
+                            <p>Create a new account&nbsp;&nbsp;<a href="{% url 'register' %}">CreateAccount</a></p>
+                        </p>
+                    </div>
+                </form>
+            </div>
+		</div>
+	</section>
+{% endblock %}
